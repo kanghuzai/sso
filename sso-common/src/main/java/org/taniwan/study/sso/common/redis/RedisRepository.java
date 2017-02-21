@@ -20,4 +20,7 @@ public class RedisRepository {
 		redisTemplate.opsForValue().set(key, value, timeout, unit);
 	}
 	
+	public String get(String key){
+		return redisTemplate.opsForValue().get(key);
+	}
 }

@@ -1,5 +1,6 @@
 package org.taniwan.study.sso.common.web;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -30,21 +31,30 @@ public class UserController {
 	@Autowired
 	private RedisRepository redisRepository;
 
-	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public ResBody login(int cellphone, String passwd){
-		if(StringUtils.isEmpty(cellphone) || StringUtils.isEmpty(passwd)){
+	@RequestMapping(value = "/user/login", method = {RequestMethod.POST, RequestMethod.GET})
+	public ResBody login(int cellphone, String passWd){
+		if(StringUtils.isEmpty(cellphone) || StringUtils.isEmpty(passWd)){
 			throw new BizException(SysErrorCode.PARAM_ERROR);
 		}
 		String host = SessionUtil.getRequest().getRemoteHost();
-		String uuid = UUIDUtil.getUuid();
-		redisRepository.set(uuid, cellphone + ":" + passwd, 10, TimeUnit.SECONDS);
-		SessionUtil.setSessionUserId(cellphone);
-		Cookie sessionId = new Cookie("JESESSIONID", uuid);
+		int port = SessionUtil.getRequest().getLocalPort();
+		host = port == 80 ? host : host + ":" + port;
+		String ssoToken = UUIDUtil.getUuid();
+		String jessionid = UUIDUtil.getUuid();
+		// ssoToken 有效期10秒
+		redisRepository.set("ssotoken:" + ssoToken, jessionid, 10, TimeUnit.SECONDS);
+		// session 有效期1分钟
+		redisRepository.set("jsessionid:" + jessionid, cellphone + ":" + passWd, 1, TimeUnit.MINUTES);
+		Cookie sessionId = new Cookie("JSESSIONID", jessionid);
 		sessionId.setHttpOnly(true);
 		sessionId.setPath("/");
+		SessionUtil.getResponse().addCookie(sessionId);
+		SessionUtil.setSessionUserId(cellphone);
 		LoginRes res = new LoginRes();
-		res.setSsoToken(uuid);
-		res.setSsoUrls(DomainGroupConfig.getDomainGroup(host));
+		res.setSsoToken(ssoToken);
+		List<String> domains = DomainGroupConfig.getDomainGroup(host);
+		domains.remove(host);
+		res.setSsoUrls(domains);
 		return ResBody.buildSucResBody(res);
 	}
 	

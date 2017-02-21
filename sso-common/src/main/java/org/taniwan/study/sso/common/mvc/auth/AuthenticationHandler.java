@@ -32,13 +32,13 @@ public class AuthenticationHandler extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			response.addHeader("Access-Control-Allow-Credentials", "true");
-			response.addHeader("Access-Control-Allow-Origin", "*");
-			response.addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-			response.addHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, "
-					+ "Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With");
+//			response.addHeader("Access-Control-Allow-Credentials", "true");
+//			response.addHeader("Access-Control-Allow-Origin", "*");
+//			response.addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//			response.addHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, "
+//					+ "Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With");
+//			response.setHeader("P3P","CP='IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'");
 			String xid = request.getHeader("x-auth-id");
-			response.setHeader("P3P","CP='IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'");
 			if(!StringUtils.isEmpty(xid)){
 				request.getSession().setAttribute(SessionUtil.SESSION_USER_ID, Integer.parseInt(xid));
 			}
@@ -74,6 +74,8 @@ public class AuthenticationHandler extends HandlerInterceptorAdapter {
 				}
 			}
 			SessionUtil.saveSession(request.getSession());
+			SessionUtil.saveRequst(request);
+			SessionUtil.saveResponse(response);
 			if(isAuth){
 				if(SessionUtil.getSessionUserId() == null){
 					throw new BizException(SysErrorCode.PERMISSION_EXPIRED);

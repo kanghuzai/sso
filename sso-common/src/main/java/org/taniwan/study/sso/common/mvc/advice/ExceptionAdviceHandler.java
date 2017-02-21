@@ -29,24 +29,24 @@ public class ExceptionAdviceHandler {
     @ResponseBody
     public Object exceptionHandler(HttpServletRequest request, Throwable e) {
         boolean isAjaxReq = "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With")) ? true : false;
-        if(!isAjaxReq) {
-            ModelAndView mav = new ModelAndView("/error.jsp");
-            if (e instanceof BizException) {
-                mav.addObject("errorMsg:", ((BizException) e).getErrorCode());
-                return mav;
-            }
-            mav.addObject(SysErrorCode.FAIL.toString());
-            return mav;
-        }
-        else{
+//        if(!isAjaxReq) {
+//            ModelAndView mav = new ModelAndView("/error.jsp");
+//            if (e instanceof BizException) {
+//                mav.addObject("errorMsg:", ((BizException) e).getErrorCode());
+//                return mav;
+//            }
+//            mav.addObject(SysErrorCode.FAIL.toString());
+//            return mav;
+//        }
+//        else{
             if (e instanceof BizException) {
                 BizException be = (BizException) e;
                 log.info("system: " + be.getErrorCode().getSystem() + ", model: " + be.getErrorCode().getModel()
-                        + ", code: " + be.getErrorCode().getCode() + ", msg: " + be.getErrorCode().getName());
+                        + ", code: " + be.getErrorCode().getCode() + ", msg: " + be.getErrorCode().getName(), e);
                 return ResBody.buildCustomResBody(be.getErrorCode());
             }
             log.error(e.getMessage(), e);
             return ResBody.buildFailResBody();
-        }
+//        }
     }
 }
