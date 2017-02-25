@@ -2,7 +2,10 @@ package org.taniwan.study.sso.common.web;
 
 import javax.servlet.http.Cookie;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,18 +20,20 @@ import org.taniwan.study.sso.common.redis.RedisRepository;
 @RestController
 @JsonpSign
 public class SsoController {
-	
+
+	private static final Logger log = LoggerFactory.getLogger(SsoController.class);
+
 	@Autowired
 	private RedisRepository redisRepository;
 
 	//业务站点通过jsonp技术结合sso-web-user授权的token登入
 	@RequestMapping(value = "/sso/login", method = RequestMethod.GET)
 	public ResBody login(String token){
-		String jessionid = redisRepository.get("ssotoken:" + token);
-		Cookie sessionId = new Cookie("JSESSIONID", jessionid);
-		sessionId.setHttpOnly(true);
-		sessionId.setPath("/");
-		SessionUtil.getResponse().addCookie(sessionId);
+		String jessionId = redisRepository.get("ssotoken:" + token);
+		if(StringUtils.isEmpty(jessionId)){
+			throw new BizException(SysErrorCode.PARAM_ERROR);
+		}
+//		JessionIdCookieUtil.setJessionId(jessionId);
 		return ResBody.buildSucResBody();
 	}
 	

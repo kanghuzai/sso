@@ -187,12 +187,12 @@ function commonCodeFilter(res) {
     }
     else if(res.code == "common-base-3"){
         console.log(JSON.stringify(res));
-        redictLoginUrl();
+        minShow(res.msg, 5000);
         return true;
     }
     else if(res.code == "common-base-4"){
         console.log(JSON.stringify(res));
-        minShow(res.msg, 5000);
+        redictLoginUrl();
         return true;
     }
     else if(res.code == "common-base-5"){
@@ -240,7 +240,7 @@ function redictBackUrl() {
 function redictLoginUrl() {
     var currUrl= location.href;
     if(currUrl.indexOf("redirectUrl") == -1) {
-        location.href = "http://www.ssouser.com/login.html" + "?redirectUrl=" + self.location.href;
+        location.href = "http://www.ssouser.com:8080/login.html" + "?redirectUrl=" + self.location.href;
     }
 }
 

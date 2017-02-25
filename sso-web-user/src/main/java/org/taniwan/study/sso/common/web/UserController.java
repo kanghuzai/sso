@@ -17,6 +17,7 @@ import org.taniwan.study.sso.common.exception.BizException;
 import org.taniwan.study.sso.common.exception.SysErrorCode;
 import org.taniwan.study.sso.common.mvc.auth.AuthSign;
 import org.taniwan.study.sso.common.mvc.auth.SessionUtil;
+import org.taniwan.study.sso.common.mvc.bean.PageReq;
 import org.taniwan.study.sso.common.mvc.bean.ResBody;
 import org.taniwan.study.sso.common.redis.RedisRepository;
 import org.taniwan.study.sso.common.res.LoginRes;
@@ -44,10 +45,7 @@ public class UserController {
 		redisRepository.set("ssotoken:" + ssoToken, jessionid, 10, TimeUnit.SECONDS);
 		// session 有效期1分钟
 		redisRepository.set("jsessionid:" + jessionid, cellphone + ":" + passWd, 1, TimeUnit.MINUTES);
-		Cookie sessionId = new Cookie("JSESSIONID", jessionid);
-		sessionId.setHttpOnly(true);
-		sessionId.setPath("/");
-		SessionUtil.getResponse().addCookie(sessionId);
+//		JessionIdCookieUtil.setJessionId(jessionid);
 		SessionUtil.setSessionUserId(cellphone);
 		LoginRes res = new LoginRes();
 		res.setSsoToken(ssoToken);

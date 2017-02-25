@@ -24,21 +24,22 @@
 	</div>
 </body>
 <script type='text/javascript'>
-	$('#submit').click(function(){
-	    postForm("/user/login", {
-	        cellphone: $('#userName').val(),
-			passWd: $('#password').val()
-	    }, ssoLogin);
-	    function ssoLogin(res) {
-            res.data.ssoUrls.forEach(function(val){
-                getJsonp("http:\/\/" + val + "/sso/login", {
-                    token: res.data.ssoToken
-                }, function (res2) {
-                    console.log(JSON.stringify(res2));
-                });
+	$('#submit').click(login());
+	function login() {
+        postForm("/user/login", {
+            cellphone: $('#userName').val(),
+            passWd: $('#password').val()
+        }, ssoLogin);
+    }
+    function ssoLogin(data) {
+        data.ssoUrls.forEach(function(val){
+            getJsonp("http:\/\/" + val + "/sso/login", {
+                token: data.ssoToken
+            }, function (res2) {
+                console.log(JSON.stringify(res2));
             });
-            redictBackUrl();
-        }
-	});
+        });
+        redictBackUrl();
+    }
 </script>
 </html>
