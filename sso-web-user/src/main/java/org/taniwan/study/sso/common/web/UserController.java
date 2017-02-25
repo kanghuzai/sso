@@ -35,7 +35,7 @@ public class UserController {
 		if(StringUtils.isEmpty(cellphone) || StringUtils.isEmpty(passWd)){
 			throw new BizException(SysErrorCode.PARAM_ERROR);
 		}
-		String host = SessionUtil.getRequest().getRemoteHost();
+		String host = SessionUtil.getRequest().getServerName();
 		int port = SessionUtil.getRequest().getLocalPort();
 		host = port == 80 ? host : host + ":" + port;
 		String ssoToken = UUIDUtil.getUuid();
