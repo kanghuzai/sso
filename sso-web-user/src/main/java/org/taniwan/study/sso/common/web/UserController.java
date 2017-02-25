@@ -1,7 +1,6 @@
 package org.taniwan.study.sso.common.web;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +17,7 @@ import org.taniwan.study.sso.common.exception.BizException;
 import org.taniwan.study.sso.common.exception.SysErrorCode;
 import org.taniwan.study.sso.common.mvc.auth.AuthSign;
 import org.taniwan.study.sso.common.mvc.auth.SessionUtil;
+import org.taniwan.study.sso.common.mvc.bean.PageReq;
 import org.taniwan.study.sso.common.mvc.bean.ResBody;
 import org.taniwan.study.sso.common.redis.RedisRepository;
 import org.taniwan.study.sso.common.res.LoginRes;
@@ -36,7 +36,7 @@ public class UserController {
 		if(StringUtils.isEmpty(cellphone) || StringUtils.isEmpty(passWd)){
 			throw new BizException(SysErrorCode.PARAM_ERROR);
 		}
-		String host = SessionUtil.getRequest().getRemoteHost();
+		String host = SessionUtil.getRequest().getServerName();
 		int port = SessionUtil.getRequest().getLocalPort();
 		host = port == 80 ? host : host + ":" + port;
 		String ssoToken = UUIDUtil.getUuid();
@@ -45,10 +45,7 @@ public class UserController {
 		redisRepository.set("ssotoken:" + ssoToken, jessionid, 10, TimeUnit.SECONDS);
 		// session 有效期1分钟
 		redisRepository.set("jsessionid:" + jessionid, cellphone + ":" + passWd, 1, TimeUnit.MINUTES);
-		Cookie sessionId = new Cookie("JSESSIONID", jessionid);
-		sessionId.setHttpOnly(true);
-		sessionId.setPath("/");
-		SessionUtil.getResponse().addCookie(sessionId);
+//		JessionIdCookieUtil.setJessionId(jessionid);
 		SessionUtil.setSessionUserId(cellphone);
 		LoginRes res = new LoginRes();
 		res.setSsoToken(ssoToken);

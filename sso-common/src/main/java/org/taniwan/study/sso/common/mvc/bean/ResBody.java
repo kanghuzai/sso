@@ -120,7 +120,7 @@ public class ResBody {
 	 */
 	public static ResBody buildCustomResBody(BizErrorCode errorCode){
 		ResBody res = new ResBody();
-		res.setCode(errorCode.getSystem() + "-" + errorCode.getName() + "-" + errorCode.getCode());
+		res.setCode(errorCode.getSystem() + "-" + errorCode.getModel() + "-" + errorCode.getCode());
 		res.setMsg(errorCode.getName());
 		return res;
 	}

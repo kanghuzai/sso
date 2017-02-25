@@ -85,7 +85,6 @@ public class AuthenticationHandler extends HandlerInterceptorAdapter {
 		} catch (ClassCastException e) {
 			// 不能强制转换为HandlerMethod类直接通过
 //			log.error(e.getMessage(), e);
-//			throw new DayDaoException(BizErrorConst.FAIL);
 		}
 		return true;
 	}
@@ -99,6 +98,15 @@ public class AuthenticationHandler extends HandlerInterceptorAdapter {
 		}
 		catch (Exception e) {
 			// TODO Auto-generated catch block
+			throw new BizException(SysErrorCode.INSIDE_ERROR);
+		}
+		if(ex != null){
+			if(ex instanceof BizException){
+				throw ex;
+			}
+			else{
+				throw new BizException(SysErrorCode.INSIDE_ERROR);
+			}
 		}
 		super.afterCompletion(request, response, handler, ex);
 	}
