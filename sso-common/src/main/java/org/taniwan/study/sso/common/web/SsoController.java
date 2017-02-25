@@ -1,14 +1,11 @@
 package org.taniwan.study.sso.common.web;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.taniwan.study.sso.common.exception.BizErrorCode;
 import org.taniwan.study.sso.common.exception.BizException;
 import org.taniwan.study.sso.common.exception.SysErrorCode;
 import org.taniwan.study.sso.common.mvc.auth.AuthSign;
@@ -16,7 +13,6 @@ import org.taniwan.study.sso.common.mvc.auth.SessionUtil;
 import org.taniwan.study.sso.common.mvc.bean.ResBody;
 import org.taniwan.study.sso.common.mvc.jsop.JsonpSign;
 import org.taniwan.study.sso.common.redis.RedisRepository;
-import org.taniwan.study.sso.common.util.UUIDUtil;
 
 @RestController
 @JsonpSign

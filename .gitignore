@@ -17,3 +17,5 @@ logs
 .classpath
 .project
 target
+.iml
+.idea

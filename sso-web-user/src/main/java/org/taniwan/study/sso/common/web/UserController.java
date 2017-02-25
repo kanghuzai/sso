@@ -1,7 +1,6 @@
 package org.taniwan.study.sso.common.web;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.Cookie;
