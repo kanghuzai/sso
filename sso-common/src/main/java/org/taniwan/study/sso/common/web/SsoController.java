@@ -1,7 +1,5 @@
 package org.taniwan.study.sso.common.web;
 
-import javax.servlet.http.Cookie;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +28,14 @@ public class SsoController {
 	//对请求做http head refence校验，防止别人窃取token
 	@RequestMapping(value = "/sso/login", method = RequestMethod.GET)
 	public ResBody login(String token){
-		String jessionId = redisRepository.get("ssotoken:" + token);
-		if(StringUtils.isEmpty(jessionId)){
+		String cellphone = redisRepository.get("ssotoken:" + token);
+		if(StringUtils.isEmpty(cellphone)){
 			throw new BizException(SysErrorCode.PARAM_ERROR);
 		}
-//		JessionIdCookieUtil.setJessionId(jessionId);
-		return ResBody.buildSucResBody();
+//		CookieUtil.setJeSessionId(jeSessionId);
+//		String userId = redisRepository.get("jsessionid:" + jeSessionId).split(":")[0];
+		SessionUtil.setSessionUserId(Integer.parseInt(cellphone));
+		return ResBody.buildSucResBody(cellphone);
 	}
 	
 	//用来检测业务站点是否登入

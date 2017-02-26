@@ -23,7 +23,7 @@ public class BizException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "DayDaoException{" +
+        return "BizException{" +
                 "errorCode=" + errorCode +
                 '}';
     }

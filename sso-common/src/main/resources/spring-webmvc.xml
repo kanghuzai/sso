@@ -44,6 +44,7 @@
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/index.html" />
 			<mvc:exclude-mapping path="/index.jsp" />
+			<mvc:exclude-mapping path="/favicon.ico" />
 			<mvc:exclude-mapping path="/static/*" />
 			<mvc:exclude-mapping path="/views/*" />
 			<bean class="org.taniwan.study.sso.common.mvc.auth.AuthenticationHandler" />
@@ -88,6 +89,7 @@
 	<mvc:resources location="/views/" mapping="/views/**" />
 	<mvc:resources location="/index.html" mapping="/index.html" />
 	<mvc:resources location="/login.html" mapping="/login.html" />
+	<mvc:resources location="/favicon.ico" mapping="/favicon.ico" />
 	<mvc:resources location="/config/" mapping="/config/*.js" />
 
 </beans>

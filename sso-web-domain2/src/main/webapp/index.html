@@ -8,11 +8,13 @@
     <script src="http://www.ssouser.com:8080/static/js/common/base.js" type="application/javascript" charset="utf-8"></script>
     <script src="http://www.ssouser.com:8080/static/js/common/ajax.js" type="application/javascript" charset="utf-8"></script>
     <link  href="http://www.ssouser.com:8080/static/js/common/artDialog/dialog.css" type="text/css" rel="stylesheet"/>
+    <script type="application/javascript">
+        getJson("/sso/isLogin");
+    </script>
 </head>
 <body>
 <h2>欢迎光临业务domain2首页</h2>
-<script type="application/javascript">
-    getJson("/sso/isLogin");
-</script>
+<h2><a href="http://www.ssouser.com:8080">用户中心首页</a></h2>
+<h2><a href="http://www.domain1.com:8081">业务Domain1首页</a></h2>
 </body>
 </html>

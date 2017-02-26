@@ -24,22 +24,35 @@
 	</div>
 </body>
 <script type='text/javascript'>
-	$('#submit').click(login());
+	ssoCount = 0;
+	$('#submit').click(login);
 	function login() {
         postForm("/user/login", {
             cellphone: $('#userName').val(),
             passWd: $('#password').val()
-        }, ssoLogin);
+        }, ssoLogin, null, {async: false});
     }
     function ssoLogin(data) {
-        data.ssoUrls.forEach(function(val){
-            getJsonp("http:\/\/" + val + "/sso/login", {
-                token: data.ssoToken
-            }, function (res2) {
-                console.log(JSON.stringify(res2));
-            });
-        });
-        redictBackUrl();
+//        data.ssoUrls.forEach(function(val){
+//            getJsonp("http:\/\/" + val + "/sso/login", {
+//                token: data.ssoToken
+//            }, function (res2) {
+//				alert(JSON.stringify(res2));
+//                console.log(JSON.stringify(res2));
+//            }, null, {async: false});
+//        });
+		for(var i = 0; i < data.ssoUrls.length; i++){
+			getJsonp("http:\/\/" + data.ssoUrls[i] + "/sso/login", {
+				token: data.ssoToken
+			}, function (res2) {
+				ssoCount ++;
+				console.log(JSON.stringify(res2));
+			}, null, {async: false});
+		}
+		while(ssoCount == data.ssoUrls.length){
+			break;
+		}
+		redictBackUrl();
     }
 </script>
 </html>

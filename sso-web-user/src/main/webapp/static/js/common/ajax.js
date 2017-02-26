@@ -11,6 +11,12 @@ function getJson(url, req, bizSuccessCallBack, bizFailCallBack, head) {
     if(req != null || req != undefined){
         _settings.data = req;
     }
+    if(head != null || head != undefined){
+        if(head.async != null || head.async != undefined){
+            _settings.async = false;
+        }
+    }
+    _settings.async = true;
     _settings.type = "GET";
     _settings.contentType = "application/x-www-form-urlencoded; charset=UTF-8";
     _settings.dataType = "json"
@@ -31,7 +37,7 @@ function getJson(url, req, bizSuccessCallBack, bizFailCallBack, head) {
         }
         else{
             if(bizFailCallBack != null || bizFailCallBack != undefined){
-                bizFailCallBack(res.data, res.page);
+                bizFailCallBack(res.code);
             }
             else{
                 minShow(JSON.stringify(res));
@@ -50,12 +56,19 @@ function getJson(url, req, bizSuccessCallBack, bizFailCallBack, head) {
  * @param req  请求的json对象
  * @param bizSuccessCallBack 业务成功回调函数
  * @param bizFailCallBack 业务失败回调函数
+ * @param head Http请求头
  */
-function postForm(url, req, bizSuccessCallBack, bizFailCallBack) {
+function postForm(url, req, bizSuccessCallBack, bizFailCallBack, head) {
     var _settings = {};
     if(req != null || req != undefined){
         _settings.data = req;
     }
+    if(head != null || head != undefined){
+        if(head.async != null || head.async != undefined){
+            _settings.async = head.async;
+        }
+    }
+    _settings.async = true;
     _settings.type = "POST";
     _settings.contentType = "application/x-www-form-urlencoded; charset=UTF-8";
     _settings.dataType = "json"
@@ -73,7 +86,7 @@ function postForm(url, req, bizSuccessCallBack, bizFailCallBack) {
         }
         else{
             if(bizFailCallBack != null || bizFailCallBack != undefined){
-                bizFailCallBack(res.data, res.page);
+                bizFailCallBack(res.code);
             }
             else{
                 minShow(JSON.stringify(res));
@@ -92,11 +105,17 @@ function postForm(url, req, bizSuccessCallBack, bizFailCallBack) {
  * @param req  请求的json对象
  * @param bizSuccessCallBack 业务成功回调函数
  * @param bizFailCallBack 业务失败回调函数
+ * @param head Http请求头
  */
-function postJson(url, req, bizSuccessCallBack, bizFailCallBack) {
+function postJson(url, req, bizSuccessCallBack, bizFailCallBack, head) {
     var _settings = {};
     if(req != null || req != undefined){
         _settings.data = req;
+    }
+    if(head != null || head != undefined){
+        if(head.async != null || head.async != undefined){
+            _settings.async = head.async;
+        }
     }
     _settings.type = "POST";
     _settings.contentType = "application/json;charset=utf-8";
@@ -115,7 +134,7 @@ function postJson(url, req, bizSuccessCallBack, bizFailCallBack) {
         }
         else{
             if(bizFailCallBack != null || bizFailCallBack != undefined){
-                bizFailCallBack(res.data, res.page);
+                bizFailCallBack(res.code);
             }
             else{
                 minShow(JSON.stringify(res));
@@ -134,11 +153,17 @@ function postJson(url, req, bizSuccessCallBack, bizFailCallBack) {
  * @param req  请求的json对象
  * @param bizSuccessCallBack 业务成功回调函数
  * @param bizFailCallBack 业务失败回调函数
+ * @param head Http请求头
  */
-function getJsonp(url, req, bizSuccessCallBack, bizFailCallBack) {
+function getJsonp(url, req, bizSuccessCallBack, bizFailCallBack, head) {
     var _settings = {};
     if(req != null || req != undefined){
         _settings.data = req;
+    }
+    if(head != null || head != undefined){
+        if(head.async != null || head.async != undefined){
+            _settings.async = head.async;
+        }
     }
     _settings.type = "GET";
     _settings.contentType = "application/x-www-form-urlencoded; charset=UTF-8";
@@ -161,7 +186,7 @@ function getJsonp(url, req, bizSuccessCallBack, bizFailCallBack) {
         }
         else{
             if(bizFailCallBack != null || bizFailCallBack != undefined){
-                bizFailCallBack(res.data, res.page);
+                bizFailCallBack(res.code);
             }
             else{
                 minShow(JSON.stringify(res));

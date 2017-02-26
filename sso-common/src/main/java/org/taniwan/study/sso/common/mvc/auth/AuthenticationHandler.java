@@ -78,9 +78,13 @@ public class AuthenticationHandler extends HandlerInterceptorAdapter {
 			SessionUtil.saveResponse(response);
 			if(isAuth){
 				if(SessionUtil.getSessionUserId() == null){
+					log.info("$$$ sessionId: {} $$$", request.getSession().getId());
 					throw new BizException(SysErrorCode.PERMISSION_EXPIRED);
 				}
-				log.info("$$$ sessionId: {} -->> userId: {} $$$", request.getSession().getId(), SessionUtil.getSessionUserId());
+				log.info("$$$ sessionId: {} -> userId: {} $$$", request.getSession().getId(), SessionUtil.getSessionUserId());
+			}
+			else{
+				log.info("$$$ sessionId: {} $$$", request.getSession().getId());
 			}
 		} catch (ClassCastException e) {
 			// 不能强制转换为HandlerMethod类直接通过
@@ -97,14 +101,20 @@ public class AuthenticationHandler extends HandlerInterceptorAdapter {
 			log.info("handler method: {} sec: {} ms", methods[0], new Date().getTime() - methodSecMap.get().get(methods[0]));
 		}
 		catch (Exception e) {
-			// TODO Auto-generated catch block
-			throw new BizException(SysErrorCode.INSIDE_ERROR);
+			if(e instanceof ClassCastException){
+				// ingore exection
+			}
+			else {
+				log.error(e.getMessage(), e);
+				throw new BizException(SysErrorCode.INSIDE_ERROR);
+			}
 		}
 		if(ex != null){
 			if(ex instanceof BizException){
 				throw ex;
 			}
 			else{
+				log.error(ex.getMessage(), ex);
 				throw new BizException(SysErrorCode.INSIDE_ERROR);
 			}
 		}

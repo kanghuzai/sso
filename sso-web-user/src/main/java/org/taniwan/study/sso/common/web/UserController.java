@@ -3,8 +3,6 @@ package org.taniwan.study.sso.common.web;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.http.Cookie;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.taniwan.study.sso.common.exception.BizException;
 import org.taniwan.study.sso.common.exception.SysErrorCode;
 import org.taniwan.study.sso.common.mvc.auth.AuthSign;
 import org.taniwan.study.sso.common.mvc.auth.SessionUtil;
-import org.taniwan.study.sso.common.mvc.bean.PageReq;
 import org.taniwan.study.sso.common.mvc.bean.ResBody;
 import org.taniwan.study.sso.common.redis.RedisRepository;
 import org.taniwan.study.sso.common.res.LoginRes;
@@ -40,12 +37,12 @@ public class UserController {
 		int port = SessionUtil.getRequest().getLocalPort();
 		host = port == 80 ? host : host + ":" + port;
 		String ssoToken = UUIDUtil.getUuid();
-		String jessionid = UUIDUtil.getUuid();
+//		String jeSessionId = CookieUtil.getJeSessionId();
 		// ssoToken 有效期10秒
-		redisRepository.set("ssotoken:" + ssoToken, jessionid, 10, TimeUnit.SECONDS);
+		redisRepository.set("ssotoken:" + ssoToken, cellphone + "", 10, TimeUnit.SECONDS);
 		// session 有效期1分钟
-		redisRepository.set("jsessionid:" + jessionid, cellphone + ":" + passWd, 1, TimeUnit.MINUTES);
-//		JessionIdCookieUtil.setJessionId(jessionid);
+//		redisRepository.set("jsessionid:" + jeSessionId, cellphone + ":" + passWd, 30, TimeUnit.MINUTES);
+//		CookieUtil.setJeSessionId(jeSessionId);
 		SessionUtil.setSessionUserId(cellphone);
 		LoginRes res = new LoginRes();
 		res.setSsoToken(ssoToken);
