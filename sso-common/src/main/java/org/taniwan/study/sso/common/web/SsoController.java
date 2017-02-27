@@ -47,4 +47,11 @@ public class SsoController {
 		}
 		return ResBody.buildSucResBody();
 	}
+
+	//退出登入
+	@RequestMapping(value = "/sso/logout", method = RequestMethod.POST)
+	public ResBody logout(){
+		SessionUtil.cleanSessionInfo();
+		return ResBody.buildSucResBody();
+	}
 }
