@@ -254,9 +254,7 @@ function getUrlParam(name) {
  * 重定向到业务url地址
  */
 function redictBackUrl() {
-    var currUrl = location.href;
-    var clearUrl = currUrl.substring(0, currUrl.indexOf('?')) + "?redirectUrl=";
-    location.href = currUrl.replace(clearUrl, "");
+    location.href = getUrlParam("redirectUrl");
 }
 
 /**
